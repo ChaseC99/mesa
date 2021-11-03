@@ -64,13 +64,14 @@
             </map>
         </div>
 
-        <div id="facilities">
+        <div>
+            <div id="facilities"></div>
+            <button onclick="clearState()">Reset the Map</button>
         </div>
     </div>
 
     <script>
         var loadedStates = JSON.parse(localStorage.getItem("states"));
-        console.log(loadedStates)
         var states = loadedStates ? loadedStates : {};  
 
         const facilities = [
@@ -106,8 +107,6 @@
 
         renderFacilityTimes()
 
-
-
         $('#map').mapster({
             mapKey: 'title',
             fillColor: '1b1b1b',
@@ -132,5 +131,12 @@
                return {key: key, selected: true} 
             })
         });
+
+        const clearState = () => { 
+            if (confirm("Are you sure you want to reset the map?")) {
+                localStorage.removeItem("states"); 
+                location.reload();
+            }
+        }
     </script>
 </html>
