@@ -1,13 +1,13 @@
 <html>
     <head>
         <style>
-            img {height: 100vh;}
+            img {height: 95vh;}
         </style>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/imagemapster/1.5.4/jquery.imagemapster.min.js"></script>
     </head>
 
-    <div style="display: flex;">
+    <div style="display: flex; align-items: center;">
         <div>
             <img src="map.png" usemap="#image-map" id="map">
 
@@ -65,7 +65,7 @@
         </div>
 
         <div>
-            <div id="facilities"></div>
+            <table id="facilities" border="1px solid #000" style="width: 40vw"></table>
             <button onclick="clearState()">Reset the Map</button>
         </div>
     </div>
@@ -74,32 +74,30 @@
         var loadedStates = JSON.parse(localStorage.getItem("states"));
         var states = loadedStates ? loadedStates : {};  
 
-        const facilities = [
-            "d1_cc",
-            "d2_basketball",
-            "d2_ho",
-            "d4_volleyball", 
-            "d5_mailroom", 
-            "d5_conejo", 
-            "d5_bathrooms", 
-            "d5_rec",   
-            "d5_court",
-            "d5_playa_roof", 
-            "d5_caballo_roof", 
-            "d5_mariposa_roof"
-        ];
-        
-        const facilitiesSet = new Set(facilities);
+        const facilities = {
+            "d1_cc": "Community Center/MPR",
+            "d2_basketball": "Basketball Court",
+            "d2_ho": "Housing Office",
+            "d4_volleyball": "Volleyball Court",
+            "d5_mailroom": "Mailroom",
+            "d5_conejo": "Conejo Suite",
+            "d5_bathrooms": "Playa Bathrooms",
+            "d5_rec": "Rec and Fitness Center",
+            "d5_court": "The Court",
+            "d5_playa_roof": "Playa Roof",
+            "d5_caballo_roof": "Caballo Roof",
+            "d5_mariposa_roof": "Mariposa Roof"
+        };
         
         const renderFacilityTimes = () => {
             $('#facilities').html(
-                facilities.map(facility => {
+                Object.keys(facilities).map(facility => {
                     const time = states[facility] ? states[facility] : '';
                     return `
-                    <div style="display: flex; align-items: center;">
-                        <h3>${facility}:</h3>
-                        <p style="margin-left: 16px">${time}</p>
-                    </div>
+                    <tr>
+                        <td style="padding: 6px; width: 60%"><b>${facilities[facility]}</b></td>
+                        <td style="padding: 6px">${time}</td>
+                    </tr>
                     `
                 }).toString().replaceAll(',','')    
             )
@@ -119,7 +117,7 @@
                     delete states[key]
                 }
 
-                if (facilitiesSet.has(key)) {
+                if (key in facilities) {
                     renderFacilityTimes()
                 }
 
