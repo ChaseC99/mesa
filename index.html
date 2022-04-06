@@ -162,7 +162,7 @@
             fillColor: '1b1b1b',
             fillOpacity: 0.5,
             onClick: ({key, selected}) => {
-                const currentTime = (new Date()).toLocaleTimeString();
+                const currentTime = (new Date()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                 if (selected) {
                     states[key] = currentTime;
                 } else {
